@@ -1,16 +1,15 @@
 <template>
-  <div class="app">
-    <h1 class="app__title">{{ title }}</h1>
-    <router-view></router-view>
-  </div>
+  <TaskList></TaskList>
 </template>
 
 <script>
+  import TaskList from "../components/TaskList.vue";
+  import Button from "../components/Button.vue";
+
   export default {
-    data() {
-      return {
-        title: "Vue3 ToDo App",
-      };
+    components: {
+      TaskList,
+      Button,
     },
   };
 </script>
