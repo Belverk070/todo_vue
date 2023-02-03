@@ -7,20 +7,20 @@
       class="modal"
       @click.stop
     >
-      <h6>Подтверждаем удаление?</h6>
+      <h6>Удалить?</h6>
       <div class="modal__actions">
         <Button
-          @click="$emit('close-modal')"
+          label="Подтвердить"
+          @click="$emit('removeTask')"
           class="modal__button button-yellow"
+          >Да</Button
         >
-          Подтвердить
-        </Button>
         <Button
+          label="Отменить"
           class="modal__button button-red"
           @click="$emit('close-modal')"
+          >Нет</Button
         >
-          Отменить
-        </Button>
       </div>
     </div>
     <div

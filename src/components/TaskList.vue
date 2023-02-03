@@ -1,30 +1,41 @@
 <template>
-  <router-link to="/task">
-    <Button>Добавить задачу</Button>
-  </router-link>
-  <div class="container"></div>
-  <div
-    v-for="(task, index) in tasks"
-    :key="this.tasks.id"
-  >
-    <div class="taskItem__container">
-      <div class="taskItem__wrapper">
-        <h4 class="taskItem__title">{{ index + 1 }}. {{ task.taskTitle }}</h4>
-      </div>
+  <div class="container">
+    <router-link to="/task">
+      <Button>Добавить задачу</Button>
+    </router-link>
+    <div
+      v-for="(task, index) in tasks"
+      :key="index"
+    >
+      <div class="taskItem__container">
+        <div class="taskItem__wrapper">
+          <h4 class="taskItem__title">{{ index + 1 }}. {{ task.taskTitle }}</h4>
+          <div class="todo__wrapepr">
+            <ul>
+              <li
+                class="todo__item"
+                v-for="(todo, index) in task.todo"
+                :key="index"
+              >
+                {{ todo.todoTitle }}
+              </li>
+            </ul>
+          </div>
+        </div>
 
-      <div class="taskItem__control">
-        <Button class="button-yellow">Редактировать</Button>
-        <Button
-          class="button-red"
-          @click="showModal = true"
-          >Удалить</Button
-        >
+        <div class="taskItem__control">
+          <Button class="button-yellow">Редактировать</Button>
+          <Button
+            class="button-red"
+            @click="removeTask(index)"
+            >Удалить</Button
+          >
+        </div>
+        <Modal
+          v-show="showModal"
+          @close-modal="showModal = false"
+        />
       </div>
-
-      <Modal
-        v-show="showModal"
-        @close-modal="showModal = false"
-      />
     </div>
   </div>
 </template>
@@ -48,7 +59,6 @@
 
     methods: {
       removeTask(index) {
-        console.log("delete clicked");
         this.tasks.splice(index, 1);
         localStorage.setItem("tasks", JSON.stringify(this.tasks));
       },
@@ -58,6 +68,7 @@
       const data = localStorage.getItem("tasks");
       if (data) {
         this.tasks = JSON.parse(data);
+        this.$store.state.tasks = JSON.parse(data);
       }
     },
   };
@@ -66,16 +77,20 @@
 <style>
   .container {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 50px;
+  }
+
+  .taskItem__wrapper {
+    width: 300px;
   }
 
   .taskItem__container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border: 0.5px solid lightblue;
   }
   .taskItem__title {
     font-size: 24px;

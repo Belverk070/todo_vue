@@ -16,13 +16,7 @@
 
 <style>
   html {
-    background: rgb(86, 128, 233);
-    background: linear-gradient(
-      270deg,
-      rgba(86, 128, 233, 1) 0%,
-      rgba(90, 185, 234, 1) 35%,
-      rgba(136, 96, 208, 1) 100%
-    );
+    background: lightslategray;
   }
   .app {
     max-width: 1240px;
