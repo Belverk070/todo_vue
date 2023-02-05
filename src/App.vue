@@ -16,7 +16,7 @@
 </script>
 
 <style>
-  .app {
+  /* .app {
     max-width: 1240px;
     margin: 0 auto;
   }
@@ -24,5 +24,5 @@
     text-align: center;
     color: black;
     font-size: 36px;
-  }
+  } */
 </style>

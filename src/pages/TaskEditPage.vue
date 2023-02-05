@@ -31,6 +31,7 @@
         <input
           v-model="todo.isCompleted"
           type="checkbox"
+          class="todo__checkbox"
           id="todo"
           name="todo"
         />
@@ -39,56 +40,72 @@
     </form>
     <Button
       type="submit"
-      @click="addNewTask"
-      >Добавить заметку</Button
+      @click="openModalHandler"
+      >Сохранить изменения</Button
     >
+    <Modal
+      v-show="showModal"
+      modalTitle="Сохранить изменения?"
+      @onSuccess="handleSuccess"
+      @closeModal="closeModal"
+    />
   </div>
 </template>
 
 <script>
+  import { mapGetters } from "vuex";
   import Button from "@/components/Button.vue";
+  import Modal from "@/components/Modal.vue";
 
   export default {
-    props: ["initialTask"],
     data() {
       return {
+        currentTask: null,
         todoList: [],
         taskTitle: "",
         todoTitle: "",
+        showModal: false,
       };
     },
     components: {
       Button,
+      Modal,
+    },
+    computed: {
+      ...mapGetters(["getTaskByID"]),
+      task() {
+        return this.getTaskByID(this.$route.params.id);
+      },
     },
     methods: {
-      addNewTask() {
-        const task = {
-          id: Date.now(),
-          taskTitle: this.taskTitle,
-          todo: this.todoList,
-        };
-        if (this.taskTitle != "") {
-          this.$store.commit("addNewTask", task);
-          localStorage.setItem(
-            "tasks",
-            JSON.stringify(this.$store.state.tasks)
-          );
-        }
-        this.taskTitle = "";
-        this.todoList = [];
-        this.$router.push({ name: "Main Page" });
-      },
       handleTodoEnter() {
         const todo = {
           id: Date.now(),
           isCompleted: false,
           todoTitle: this.todoTitle,
         };
-        if (this.todoTitle != "") {
-          this.todoList.push(todo);
-          this.todoTitle = "";
-        }
+        this.todoList.push(todo);
+        this.todoTitle = "";
       },
+      openModalHandler() {
+        this.showModal = true;
+      },
+      closeModal() {
+        this.showModal = false;
+      },
+      handleSuccess() {
+        this.task.taskTitle = this.taskTitle;
+        this.$store.commit("confirmTaskEdit");
+        this.closeModal();
+        this.$router.push({ name: "Main Page" });
+      },
+    },
+    mounted() {
+      this.currentTask = this.getTaskByID(this.$route.params.id);
+      if (this.currentTask) {
+        this.taskTitle = this.currentTask?.taskTitle || this.taskTitle;
+        this.todoList = this.currentTask?.todo || this.todoList;
+      }
     },
   };
 </script>
@@ -101,7 +118,6 @@
     align-items: center;
     margin-bottom: 50px;
   }
-
   .input {
     font-size: 24px;
     margin-right: 50px;
@@ -109,13 +125,17 @@
     height: 40px;
     border: 1px solid lightgray;
   }
-
   .input:last-of-type {
     margin-bottom: 50px;
   }
-
   .todo__list {
+    display: flex;
+    justify-content: flex-start;
+    width: 150px;
     font-size: 24px;
     margin-bottom: 5px;
+  }
+  .todo__checkbox {
+    margin-right: 15px;
   }
 </style>

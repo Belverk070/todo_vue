@@ -1,11 +1,18 @@
 <template>
-  <button class="button">
+  <button
+    class="button"
+    :class="`button_${color}`"
+  >
     <slot></slot>
   </button>
 </template>
 
 <script>
-  export default {};
+  export default {
+    props: {
+      color: String,
+    },
+  };
 </script>
 
 <style>
@@ -28,11 +35,11 @@
     border: 1px solid black;
   }
 
-  .button-yellow {
+  .button_yellow {
     background-color: lightgoldenrodyellow;
   }
 
-  .button-red {
+  .button_red {
     background-color: lightcoral;
   }
 </style>

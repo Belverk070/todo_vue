@@ -1,5 +1,8 @@
 <template>
-  <div class="container">
+  <div
+    v-if="tasks.length != 0"
+    class="container"
+  >
     <router-link to="/task">
       <Button>Добавить задачу</Button>
     </router-link>
@@ -7,36 +10,52 @@
       v-for="(task, index) in tasks"
       :key="index"
     >
-      <div class="taskItem__container">
-        <div class="taskItem__wrapper">
-          <h4 class="taskItem__title">{{ index + 1 }}. {{ task.taskTitle }}</h4>
-          <div class="todo__wrapepr">
-            <ul>
-              <li
-                class="todo__item"
-                v-for="(todo, index) in task.todo"
-                :key="index"
-              >
-                {{ todo.todoTitle }}
-              </li>
-            </ul>
-          </div>
+      <div class="taskItem__wrapper">
+        <h4 class="taskItem__title">{{ index + 1 }}. {{ task.taskTitle }}</h4>
+        <div class="todo-wrapper">
+          <ul>
+            <li class="todo__item">
+              {{ task.todo[0].todoTitle }}
+            </li>
+            <li
+              li
+              class="todo__item"
+            >
+              {{ task.todo[1].todoTitle }}
+            </li>
+          </ul>
+          <p class="todo__counter">Всего задач: {{ task.todo.length }}</p>
         </div>
-
-        <div class="taskItem__control">
-          <Button class="button-yellow">Редактировать</Button>
-          <Button
-            class="button-red"
-            @click="removeTask(index)"
-            >Удалить</Button
-          >
-        </div>
-        <Modal
-          v-show="showModal"
-          @close-modal="showModal = false"
-        />
       </div>
+
+      <div class="taskItem__control">
+        <Button
+          color="yellow"
+          @click="openEditPage(task.id)"
+          >Редактировать</Button
+        >
+        <Button
+          color="red"
+          @click="openModalHandler(task.id)"
+          >Удалить</Button
+        >
+      </div>
+      <Modal
+        v-show="showModal"
+        modalTitle="Удалить?"
+        @onSuccess="handleSuccess"
+        @closeModal="closeModal"
+      />
     </div>
+  </div>
+  <div
+    v-else
+    class="container"
+  >
+    <router-link to="/task">
+      <Button>Добавить задачу</Button>
+    </router-link>
+    <h4 class="empty__list">Задач нет, добавить?</h4>
   </div>
 </template>
 
@@ -52,22 +71,38 @@
 
     data() {
       return {
-        tasks: [],
         showModal: false,
+        currentTaskID: null,
       };
     },
 
+    computed: {
+      tasks() {
+        return this.$store.state?.tasks || [];
+      },
+    },
+
     methods: {
-      removeTask(index) {
-        this.tasks.splice(index, 1);
-        localStorage.setItem("tasks", JSON.stringify(this.tasks));
+      handleSuccess() {
+        this.$store.commit("deleteTask", this.currentTaskID);
+        this.closeModal();
+      },
+      openModalHandler(id) {
+        this.showModal = true;
+        this.currentTaskID = id;
+      },
+      closeModal() {
+        this.showModal = false;
+        this.currentTaskID = null;
+      },
+      openEditPage(taskID) {
+        this.$router.push({ name: "TaskEditPage", params: { id: taskID } });
       },
     },
 
     mounted() {
       const data = localStorage.getItem("tasks");
       if (data) {
-        this.tasks = JSON.parse(data);
         this.$store.state.tasks = JSON.parse(data);
       }
     },
@@ -81,10 +116,11 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 50px;
+    gap: 20px;
   }
 
   .taskItem__wrapper {
-    width: 300px;
+    text-align: center;
   }
 
   .taskItem__container {
@@ -94,14 +130,25 @@
   }
   .taskItem__title {
     font-size: 24px;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 0.03em;
     text-decoration: none;
+    text-transform: uppercase;
   }
   .taskItem__control {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 50px;
+  }
+  .todo__item {
+    text-align-last: left;
+    font-size: 24px;
+  }
+  .todo__counter {
+    font-size: 24px;
+  }
+  .empty__list {
+    font-size: 25px;
   }
 </style>

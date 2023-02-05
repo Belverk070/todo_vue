@@ -13,7 +13,16 @@ const store = createStore({
     deleteTask(state, id) {
       const index = state.tasks.findIndex((item) => item.id === id);
       state.tasks.splice(index, 1);
-      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+      localStorage.setItem("tasks", JSON.stringify(state.tasks));
+    },
+
+    confirmTaskEdit(state) {
+      localStorage.setItem("tasks", JSON.stringify(state.tasks));
+    }
+  },
+  getters: {
+    getTaskByID: (state) => (id) => {
+      return state.tasks.find((item) => Number(item.id) === Number(id));
     },
   },
 });

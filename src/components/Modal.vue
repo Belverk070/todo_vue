@@ -1,36 +1,38 @@
 <template>
   <div
     class="modal-overlay"
-    @click="$emit('close-modal')"
+    @click="$emit('closeModal')"
   >
     <div
       class="modal"
       @click.stop
     >
-      <h6>Удалить?</h6>
-      <div class="modal__actions">
+      <h6 class="modal__title">{{ modalTitle }}</h6>
+      <div class="modal-buttons">
         <Button
           label="Подтвердить"
-          @click="$emit('removeTask')"
-          class="modal__button button-yellow"
+          @click="$emit(`onSuccess`)"
+          class="modal-buttons__confirm"
+          color="red"
           >Да</Button
         >
         <Button
           label="Отменить"
-          class="modal__button button-red"
-          @click="$emit('close-modal')"
+          class="modal-buttons__cancel"
+          @click="$emit('closeModal')"
+          color="yellow"
           >Нет</Button
         >
       </div>
     </div>
     <div
       class="close"
-      @click="$emit('close-modal')"
+      @click="$emit('closeModal')"
     >
       <img
         class="close-img"
         src="../assets/close-icon.svg"
-        alt=""
+        alt="Close modal window icon"
       />
     </div>
   </div>
@@ -39,7 +41,9 @@
 <script>
   import Button from "./Button.vue";
   export default {
-    props: {},
+    props: {
+      modalTitle: String,
+    },
     data() {
       return {};
     },
@@ -77,7 +81,7 @@
     width: 25px;
   }
 
-  .modal__actions {
+  .modal-buttons {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
