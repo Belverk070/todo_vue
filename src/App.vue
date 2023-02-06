@@ -16,13 +16,4 @@
 </script>
 
 <style>
-  /* .app {
-    max-width: 1240px;
-    margin: 0 auto;
-  }
-  .app__title {
-    text-align: center;
-    color: black;
-    font-size: 36px;
-  } */
 </style>

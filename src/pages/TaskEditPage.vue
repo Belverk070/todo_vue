@@ -5,7 +5,7 @@
     >
 
     <form class="task-create">
-      <h3 class="task__title">Название заметки</h3>
+      <h3 class="task__title title">Название заметки</h3>
       <input
         class="task__input input"
         v-model="taskTitle"
@@ -13,7 +13,7 @@
         type="text"
       />
 
-      <h3 class="todo__title">Список задач</h3>
+      <h3 class="todo__title title">Список задач</h3>
 
       <input
         class="todo__input input"
@@ -35,7 +35,16 @@
           id="todo"
           name="todo"
         />
-        <label>{{ todo.todoTitle }}</label>
+        <label :class="{ done: todo.isCompleted }">{{ todo.todoTitle }}</label>
+        <span
+          class="delete-btn"
+          title="delete todo"
+          ><img
+            @click="deleteTodo(todo.id)"
+            class="close-img"
+            src="../assets/close-icon.svg"
+            alt="Close modal window icon"
+        /></span>
       </div>
     </form>
     <Button
@@ -99,6 +108,10 @@
         this.closeModal();
         this.$router.push({ name: "Main Page" });
       },
+      deleteTodo(id) {
+        const index = this.todoList.findIndex((item) => item.id === id);
+        this.todoList.splice(index, 1);
+      },
     },
     mounted() {
       this.currentTask = this.getTaskByID(this.$route.params.id);
@@ -110,32 +123,4 @@
   };
 </script>
 
-<style>
-  .task-create {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 50px;
-  }
-  .input {
-    font-size: 24px;
-    margin-right: 50px;
-    width: 500px;
-    height: 40px;
-    border: 1px solid lightgray;
-  }
-  .input:last-of-type {
-    margin-bottom: 50px;
-  }
-  .todo__list {
-    display: flex;
-    justify-content: flex-start;
-    width: 150px;
-    font-size: 24px;
-    margin-bottom: 5px;
-  }
-  .todo__checkbox {
-    margin-right: 15px;
-  }
-</style>
+<style></style>

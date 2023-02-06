@@ -10,10 +10,12 @@
       v-for="(task, index) in tasks"
       :key="index"
     >
-      <div class="taskItem__wrapper">
-        <h4 class="taskItem__title">{{ index + 1 }}. {{ task.taskTitle }}</h4>
+      <div class="task-wrapper">
+        <h4 class="title task__title-lg">
+          {{ index + 1 }}. {{ task.taskTitle }}
+        </h4>
         <div class="todo-wrapper">
-          <ul>
+          <ul v-if="task.todo.length > 1">
             <li class="todo__item">
               {{ task.todo[0].todoTitle }}
             </li>
@@ -28,7 +30,7 @@
         </div>
       </div>
 
-      <div class="taskItem__control">
+      <div class="task-actions">
         <Button
           color="yellow"
           @click="openEditPage(task.id)"
@@ -118,24 +120,18 @@
     margin-bottom: 50px;
     gap: 20px;
   }
-
-  .taskItem__wrapper {
+  .task-wrapper {
     text-align: center;
   }
-
-  .taskItem__container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .taskItem__title {
+  .title {
     font-size: 24px;
     font-weight: 600;
-    line-height: 0.03em;
-    text-decoration: none;
+    margin: 10px 0;
+  }
+  .task__title-lg {
     text-transform: uppercase;
   }
-  .taskItem__control {
+  .task-actions {
     display: flex;
     align-items: center;
     justify-content: center;

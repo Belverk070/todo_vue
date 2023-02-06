@@ -5,7 +5,7 @@
     >
 
     <form class="task-create">
-      <h3 class="task__title">Название заметки</h3>
+      <h3 class="task__title title">Название заметки</h3>
       <input
         class="task__input input"
         v-model="taskTitle"
@@ -13,7 +13,7 @@
         type="text"
       />
 
-      <h3 class="todo__title">Список задач</h3>
+      <h3 class="todo__title title">Список задач</h3>
 
       <input
         class="todo__input input"
@@ -28,13 +28,27 @@
         v-for="todo in todoList"
         :key="todo"
       >
-        <input
-          v-model="todo.isCompleted"
-          type="checkbox"
-          id="todo"
-          name="todo"
-        />
-        <label>{{ todo.todoTitle }}</label>
+        <div class="todo__wrapper">
+          <input
+            v-model="todo.isCompleted"
+            type="checkbox"
+            id="todo"
+            name="todo"
+          />
+          <label :class="{ done: todo.isCompleted }">{{
+            todo.todoTitle
+          }}</label>
+        </div>
+
+        <span
+          class="delete-btn"
+          title="delete todo"
+          ><img
+            @click="deleteTodo(todo.id)"
+            class="close-img"
+            src="../assets/close-icon.svg"
+            alt="Delete todo"
+        /></span>
       </div>
     </form>
     <Button
@@ -89,6 +103,10 @@
           this.todoTitle = "";
         }
       },
+      deleteTodo(id) {
+        const index = this.todoList.findIndex((item) => item.id === id);
+        this.todoList.splice(index, 1);
+      },
     },
   };
 </script>
@@ -101,21 +119,41 @@
     align-items: center;
     margin-bottom: 50px;
   }
-
+  .title {
+    font-size: 24px;
+  }
   .input {
     font-size: 24px;
-    margin-right: 50px;
+    margin: 0 auto;
     width: 500px;
     height: 40px;
     border: 1px solid lightgray;
   }
-
   .input:last-of-type {
     margin-bottom: 50px;
   }
-
   .todo__list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
     font-size: 24px;
     margin-bottom: 5px;
+  }
+  .done {
+    text-decoration: line-through;
+    color: black;
+  }
+  .close-img {
+    cursor: pointer;
+  }
+  .todo__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .todo__checkbox {
+    margin-right: 15px;
+    cursor: pointer;
   }
 </style>
