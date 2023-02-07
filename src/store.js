@@ -18,7 +18,7 @@ const store = createStore({
 
     confirmTaskEdit(state) {
       localStorage.setItem("tasks", JSON.stringify(state.tasks));
-    }
+    },
   },
   getters: {
     getTaskByID: (state) => (id) => {

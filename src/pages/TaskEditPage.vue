@@ -6,6 +6,7 @@
 
     <form class="task-create">
       <h3 class="task__title title">Название заметки</h3>
+
       <input
         class="task__input input"
         v-model="taskTitle"
@@ -35,18 +36,23 @@
           id="todo"
           name="todo"
         />
+
         <label :class="{ done: todo.isCompleted }">{{ todo.todoTitle }}</label>
+
         <span
           class="delete-btn"
           title="delete todo"
-          ><img
+        >
+          <img
             @click="deleteTodo(todo.id)"
             class="close-img"
             src="../assets/close-icon.svg"
             alt="Close modal window icon"
-        /></span>
+          />
+        </span>
       </div>
     </form>
+
     <Button
       type="submit"
       @click="openModalHandler"
@@ -67,6 +73,7 @@
   import Modal from "@/components/Modal.vue";
 
   export default {
+    name: "TaskEditPage",
     data() {
       return {
         currentTask: null,
@@ -122,5 +129,3 @@
     },
   };
 </script>
-
-<style></style>

@@ -12,13 +12,13 @@
         <Button
           label="Подтвердить"
           @click="$emit(`onSuccess`)"
-          class="modal-buttons__confirm"
+          class="modal-button__confirm"
           color="red"
           >Да</Button
         >
         <Button
           label="Отменить"
-          class="modal-buttons__cancel"
+          class="modal-button__cancel"
           @click="$emit('closeModal')"
           color="yellow"
           >Нет</Button
@@ -26,11 +26,11 @@
       </div>
     </div>
     <div
-      class="close"
+      class="modal-button__close"
       @click="$emit('closeModal')"
     >
       <img
-        class="close-img"
+        class="modal-close__image-img"
         src="../assets/close-icon.svg"
         alt="Close modal window icon"
       />
@@ -41,6 +41,7 @@
 <script>
   import Button from "./Button.vue";
   export default {
+    name: 'Modal',
     props: {
       modalTitle: String,
     },
@@ -72,12 +73,12 @@
     padding: 60px 0;
     border-radius: 20px;
   }
-  .close {
+  .modal-button__close {
     margin: 10% 0 0 16px;
     cursor: pointer;
   }
 
-  .close-img {
+  .modal-close__image-img {
     width: 25px;
   }
 
@@ -87,14 +88,9 @@
     justify-content: space-evenly;
   }
 
-  h6 {
+  .modal__title {
     font-weight: 500;
     font-size: 28px;
-    margin: 20px 0;
-  }
-
-  p {
-    font-size: 16px;
     margin: 20px 0;
   }
 </style>

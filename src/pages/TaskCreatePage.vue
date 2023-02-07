@@ -41,11 +41,11 @@
         </div>
 
         <span
-          class="delete-btn"
+          class="todo__button-delete"
           title="delete todo"
           ><img
             @click="deleteTodo(todo.id)"
-            class="close-img"
+            class="todo__button-image"
             src="../assets/close-icon.svg"
             alt="Delete todo"
         /></span>
@@ -63,6 +63,7 @@
   import Button from "@/components/Button.vue";
 
   export default {
+    name: 'TaskCreatePage',
     props: ["initialTask"],
     data() {
       return {
@@ -144,7 +145,7 @@
     text-decoration: line-through;
     color: black;
   }
-  .close-img {
+  .todo__button-image {
     cursor: pointer;
   }
   .todo__wrapper {

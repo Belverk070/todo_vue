@@ -11,7 +11,7 @@
       :key="index"
     >
       <div class="task-wrapper">
-        <h4 class="title task__title-lg">
+        <h4 class="task__title task__title-lg">
           {{ index + 1 }}. {{ task.taskTitle }}
         </h4>
         <div class="todo-wrapper">
@@ -66,6 +66,7 @@
   import Button from "./Button.vue";
 
   export default {
+    name: 'TaskList',
     components: {
       Modal,
       Button,
@@ -123,7 +124,7 @@
   .task-wrapper {
     text-align: center;
   }
-  .title {
+  .task__title {
     font-size: 24px;
     font-weight: 600;
     margin: 10px 0;

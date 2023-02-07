@@ -1,6 +1,15 @@
 # todo_vue
-Vue task manager application with possibility of saving data to local storage.
-Stack: Vue3, Vue-router, Vuex. 
+Vue task application with possibility of saving and editing data to local storage.
+<br>
+Stack: 
+<br>
+<ol>
+<li>Vue3</li>
+<li>Vue-router</li>
+<li>Vuex</li>
+</ol>
+
+
 ## Project setup
 ```
 npm install
